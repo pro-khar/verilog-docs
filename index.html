@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Verilog Documentation</title>
+    <meta charset = "UTF-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href = "./styles.css">
+    <style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans:wght@300;400;600&display=swap');
+</style>
+  </head>
+
+  <body>
+  
+
+
+
+
+
+  <nav id = "navbar">
+    <header id = "navheader">Verilog Documentation</header>
+    <a class = "nav-link" href="#Numbers_in_Verilog">Numbers in Verilog</a>
+    <a class = "nav-link" href="#Instances_and_Connections">Instances and Connections</a>
+    <a class = "nav-link" href="#Built-in_Gates">Built-in Gates</a>
+    <a class = "nav-link" href="#Operators_and_Expressions">Operators and Expressions</a>
+    <a class = "nav-link" href="#Control_statements">Control statements</a>
+    <a class = "nav-link" href="#'initial'_and_'always'_block">'initial' and 'always' block</a>
+    <a class = "nav-link" href="#Functions_and_Tasks">Functions and Tasks</a>
+  </nav>
+  
+  
+  
+  
+  
+  
+  
+  
+  <main id = "main-doc">
+
+    <section class = "main-section" id = "Numbers_in_Verilog">
+      <header>
+        Numbers in Verilog<hr>   
+      </header>
+      <article>Verilog follows a strongly typed approach for denoting number values. By default, all numbers are treated as decimal however, numbers with different radix can be represented using their respective prefixes.<br><br>
+      Verilog supports <i>Binary, Decimal, Octal </i>and<i> Hexadecimal</i> formats using following syntax: <br></article>
+      <pre class = "code"><code>4'b0010;             //4-bit binary
+3'd2;                //3-bit decimal
+8'h70;               //8-bit hexadecimal
+9'h1FA;              //9-bit hexadecimal</code></pre>
+    </section>
+
+
+
+<section class = "main-section" id = "Instances_and_Connections">
+  <header>Instances and Connections<hr></header>
+  <article>Connection for an instance can be specified in two ways:<br>
+  <ol>
+    <li><p><b>Implicit connection : </b><i>(By order)</i>  : Instantiation based on order specified in the module declaration. It is difficult to debug.<br></p></li>
+    <li><p><b>Explicit connection : </b><i>(implicit connection)</i>  : Instantiation using direct assignment of the port of required module. It is easier to debug.<br></p></li>
+</ol></article>
+
+    <pre class = "code"><code>module mid(clock, d_in, d_out);	//main module
+  input clock;
+  input d_in;
+  output d_out;
+endmodule;
+
+module top(c, p_in, p_out);
+  mid m1(c, p_in, p_out);	//instantiation with Implicit connection
+endmodule
+
+module top2(c, p_in, p_out);
+  mid m2(clock(c), d_in(p_in), d_out(p_out)); //Explicit connection
+endmodule;</code></pre>
+</section>
+
+
+
+<section class = "main-section" id = "Built-in_Gates">
+  <header>Built-in Gates<hr></header>
+  <article>Verliog contains buit in primitive logic gates. The gates can be used by predefined keywords like <i>and, nand, or, nor, xor, xnor</i>.<br>The first pin is always the output pin in the instantiation syntax for gates, rest pins are input pins.<br></article>
+  <pre class  = "code"><code>module mygates(a, b, en, y1, y2);
+  input a, b, en;
+  output y1, y2;
+  and a1(y1, a, b);
+  and a2(y2, a, b, en);
+endmodule</code></pre>
+</section>
+
+
+
+<section class = "main-section" id = "Operators_and_Expressions" >
+  <header>Operators and Expressions<hr></header>
+  <ol>
+    <li><p><b>Operators</b><br>
+    Operators ae classified into 3 types on the basis of operands: <i>unary, binary</i> and<i> ternary.</i><br><br>
+<table>
+  <tr>
+    <th>Operator</th>
+    <th>Type</th>
+  </tr>
+  <tr>
+    <td class = "greenfont">+ - * / </td>
+    <td>Arithmetic</td>
+  </tr>
+  <tr>
+    <td class = "greenfont">~ ! | ^ ~^</td>
+    <td>Bitwise</td>
+  </tr>
+  <tr>
+    <td class = "greenfont">! && ||</td>
+    <td>Logical</td>
+  </tr>
+  <tr>
+    <td class = "greenfont">< > ==</td>
+    <td>Relational</td>
+  </tr>
+  <tr>
+    <td class = "greenfont">>> <<</td>
+    <td>Shift operators</td>
+  </tr>
+</table>
+    </p></li><br>
+  
+  <li><p><b>Expressions</b><br>Expressions can be formed by combining operators with operands that yeild some result.<br><br>Paranthesis "<i>()</i>" can be used to specify precedence.</p>
+  <pre class = "code"><code>!(a&b);
+(x+y)*z;
+p>q;</code></pre>
+  </li>
+  </ol>
+</section>
+
+<section class = "main-section" id = "Control_statements">
+  <header>Control statements<hr></header>
+  <article>Verilog supports conditional statements like <i>if-else, case, for, while, repeat.</i><br>
+  examples: <br>
+  <pre class = "code"><code>if(sel==1'b1) begin   //if-else
+  y=a;
+end
+else begin 
+  y = b;
+end
+
+input [1:0]sel;   //case
+case(sel);
+  0:y=a;
+  1:y=b;
+  2:y=c;
+  default:y=d;
+endcase
+
+for(i=1;i<8;i=i+1)    //for
+begin
+  state[i]=1'b1;
+  y[i]=c[i];
+end
+
+while(i<8)    //while
+begin
+  y[i]=c[i];
+  i=i+1;
+end
+
+repeat(8)   //repeat
+begin
+  y[i]=c[i];
+  i=i+1;
+end</code></pre></article>
+  </section>
+
+
+
+
+
+
+<section class = "main-section" id = "'initial'_and_'always'_block">
+  <header>'initial' and 'always' block<hr></header>
+  <article><b>initial</b> block executes only once.<br><b>always</b> block executes repeatedly throughout the simulation.<br>Both the blocks are enabled/started at time 't' = 0.<br></article>
+  <pre class= "code"><code>module myTop(d_in, d_out);
+  input d_in;
+  output d_out;
+  reg clock, counter, d_out;
+  
+  initial begin
+    clock = 1'b0;
+    counter = 1'b0;
+  end
+  
+  always begin
+    #10 clock = ~clock; //clock negation after 10 seconds
+  end
+endmodule</code></pre>
+<article><b>When to use 'always' and 'initial' blocks?</b><br>'always' block : <i>RTL and Behavioral modelling</i><br>'initial' block : <i>testbenches, to initialise our design for simulation</i><article>
+</section>
+
+<section class= "main-section" id = "Functions_and_Tasks">
+  <header>Functions and Tasks<hr></header>
+  <article>
+    <table>
+      <tr><th></th><th>Function</th><th>Task</th></tr>
+      <tr><th>Input/Output</th><td>can have one or multiple inputs, but <i>only one output.</i></td><td>can have multiple inputs, outputs and inouts.</td></tr>
+      <tr><th>Timing delay</th><td>cannot have delays modeled by #posedge, #negedge, etc.</td><td>can have delays by #posedge, #negedge, etc.</td></tr>
+      <tr><th>Model</th><td>can only model combinational circuits</td><td>can model both combinational and sequential circuits.</td></tr>
+      <tr><th>Call</th><td>can call another function but cannot call a task</td><td>can call other task or function</td></tr>
+    </table>
+  </article>
+</section>
+
+
+
+
+
+
+
+  </main>
+  </body>
+</html>
