@@ -131,7 +131,6 @@ background: linear-gradient(90deg, rgba(25,149,223,1) 14%, rgba(55,106,221,1) 86
     position: relative;
     height: fit-content;
     width: inherit;
-    background-color: red;
   }
   #main-doc{
     margin-left: 0px;
